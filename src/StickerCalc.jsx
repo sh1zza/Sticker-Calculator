@@ -22,7 +22,7 @@ const PRINT_W = 154;
 const PRINT_H = 179;
 const MARGIN_X = (SHEET_FULL_W - PRINT_W) / 2;
 const MARGIN_Y = (SHEET_FULL_H - PRINT_H) / 2;
-const MIN_GAP = 3;
+const MIN_GAP = 4;
 
 function getTier(sheets, tiers) {
   return tiers.find(t => sheets >= t.minSheets && sheets <= t.maxSheets);
@@ -172,7 +172,7 @@ export default function StickerCalc() {
 
   const [stickerW, setStickerW] = useState("");
   const [stickerH, setStickerH] = useState("");
-  const [gap, setGap] = useState(3);
+  const [gap, setGap] = useState(4);
   const [quantity, setQuantity] = useState("");
   const [activeType, setActiveType] = useState(0);
   const [tiers, setTiers] = useState(PRICE_TIERS);
