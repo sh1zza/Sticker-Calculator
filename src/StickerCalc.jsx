@@ -22,7 +22,7 @@ const PRINT_W = 154;
 const PRINT_H = 179;
 const MARGIN_X = (SHEET_FULL_W - PRINT_W) / 2;
 const MARGIN_Y = (SHEET_FULL_H - PRINT_H) / 2;
-const MIN_GAP = 3;
+const MIN_GAP = 4;
 
 function getTier(sheets, tiers) {
   return tiers.find(t => sheets >= t.minSheets && sheets <= t.maxSheets);
@@ -44,7 +44,7 @@ function calcHybridLayout(sw, sh, gap) {
     if (mg.cols === 0 || mg.rows === 0) continue;
     const msz = gridSz(mg.cols, mg.rows, pri.cw, pri.ch);
     const mc = mg.cols * mg.rows;
-    const rightW = lw - msz.w - gap, bottomH = lh - msz.h - gap;
+    const rightW = lw - msz.w - , bottomH = lh - msz.h - ;
 
     // Main only — center main zone in print area
     if (mc > best.total) {
@@ -93,13 +93,13 @@ function calcHybridLayout(sw, sh, gap) {
       for (const r of rC) { for (const b of bC) build([r, b]); build([r]); }
       for (const b of bC) build([b]);
     };
-    if (rightW > 0 || bottomH > 0) trySplit(rightW, lh, msz.w + gap, 0, msz.w, bottomH, 0, msz.h + gap);
-    if (rightW > 0 || bottomH > 0) trySplit(rightW, msz.h, msz.w + gap, 0, lw, bottomH, 0, msz.h + gap);
+    if (rightW > 0 || bottomH > 0) trySplit(rightW, lh, msz.w + , 0, msz.w, bottomH, 0, msz.h + );
+    if (rightW > 0 || bottomH > 0) trySplit(rightW, msz.h, msz.w + , 0, lw, bottomH, 0, msz.h + );
   }
   return best;
 }
 
-function generatePdf(layout, gap, stickerW, stickerH) {
+function generatePdf(layout, , stickerW, stickerH) {
   const mmToPt = v => v * 2.83465;
   const pw = mmToPt(SHEET_FULL_W), ph = mmToPt(SHEET_FULL_H);
   let objId = 0; const newObj = () => ++objId; const offsets = [];
@@ -113,7 +113,7 @@ function generatePdf(layout, gap, stickerW, stickerH) {
     const c = cls[zi % cls.length];
     s += `0.2 0.2 0.2 RG\n${c.r} ${c.g} ${c.b} rg\n0.3 w\n`;
     for (let r = 0; r < z.rows; r++) for (let cc = 0; cc < z.cols; cc++) {
-      const xm = z.x + cc * (z.cellW + gap), ym = SHEET_FULL_H - z.y - (r + 1) * z.cellH - r * gap;
+      const xm = z.x + cc * (z.cellW + ), ym = SHEET_FULL_H - z.y - (r + 1) * z.cellH - r * gap;
       const x = mmToPt(xm), y = mmToPt(ym), w = mmToPt(z.cellW), h = mmToPt(z.cellH);
       s += `${x.toFixed(2)} ${y.toFixed(2)} ${w.toFixed(2)} ${h.toFixed(2)} re B\n`;
       count++;
@@ -172,7 +172,7 @@ export default function StickerCalc() {
 
   const [stickerW, setStickerW] = useState("");
   const [stickerH, setStickerH] = useState("");
-  const [gap, setGap] = useState(3);
+  const [gap, setGap] = useState(4);
   const [quantity, setQuantity] = useState("");
   const [activeType, setActiveType] = useState(0);
   const [tiers, setTiers] = useState(PRICE_TIERS);
